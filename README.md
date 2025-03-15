@@ -1,4 +1,4 @@
-# dfetch
+# ddpfetch
 
 A lightweight wrapper around the fetch API that automatically dedupes concurrent requests with the same key.
 
@@ -9,19 +9,19 @@ When making multiple identical API calls in quick succession, you often want to 
 ## Installation
 
 ```bash
-npm i dfetch
+npm i ddpfetch
 ```
 
 ## Usage
 
 ```typescript
-import { dfetch } from 'dfetch';
+import { ddpfetch } from 'ddpfetch';
 
 // Basic usage
-const response = await dfetch('user-data', 'https://api.example.com/users/1');
+const response = await ddpfetch('user-data', 'https://api.example.com/users/1');
 
 // With fetch options
-const response = await dfetch('post-data', 'https://api.example.com/posts', {
+const response = await ddpfetch('post-data', 'https://api.example.com/posts', {
   method: 'POST',
   body: JSON.stringify({ title: 'Hello' }),
   headers: {
@@ -31,19 +31,19 @@ const response = await dfetch('post-data', 'https://api.example.com/posts', {
 
 // Automatic deduping
 // This will abort the first request and only the second one will complete
-const promise1 = dfetch('same-key', 'https://api.example.com/data');
-const promise2 = dfetch('same-key', 'https://api.example.com/data');
+const promise1 = ddpfetch('same-key', 'https://api.example.com/data');
+const promise2 = ddpfetch('same-key', 'https://api.example.com/data');
 
 // Different keys allow concurrent requests
 const [response1, response2] = await Promise.all([
-  dfetch('key1', 'https://api.example.com/data1'),
-  dfetch('key2', 'https://api.example.com/data2')
+  ddpfetch('key1', 'https://api.example.com/data1'),
+  ddpfetch('key2', 'https://api.example.com/data2')
 ]);
 ```
 
 ## API
 
-### `dfetch(dedupeKey: string, input: RequestInfo | URL, init?: RequestInit): Promise<Response>`
+### `ddpfetch(dedupeKey: string, input: RequestInfo | URL, init?: RequestInit): Promise<Response>`
 
 - `dedupeKey`: A string key that identifies the request. Concurrent requests with the same key will cancel previous pending requests.
 - `input`: The resource URL or Request object (same as fetch)

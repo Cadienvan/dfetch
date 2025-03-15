@@ -1,6 +1,6 @@
 import { test, describe } from 'node:test';
 import assert from 'node:assert';
-import { dfetch } from '../index';
+import { ddpfetch } from '../index';
 
 // Mock global fetch
 const originalFetch = global.fetch;
@@ -14,10 +14,10 @@ function mockFetch(delay: number): Promise<Response> {
   });
 }
 
-describe('dfetch', async () => {
+describe('ddpfetch', async () => {
   test('should make successful requests', async () => {
     global.fetch = () => mockFetch(10);
-    const response = await dfetch('key1', 'https://example.com');
+    const response = await ddpfetch('key1', 'https://example.com');
     assert.equal(response.status, 200);
   });
 
@@ -34,10 +34,10 @@ describe('dfetch', async () => {
     };
 
     // Start first request
-    const promise1 = dfetch('key2', 'https://example.com');
+    const promise1 = ddpfetch('key2', 'https://example.com');
     
     // Start second request immediately
-    const promise2 = dfetch('key2', 'https://example.com');
+    const promise2 = ddpfetch('key2', 'https://example.com');
     
     await promise2;
     assert.equal(aborted, true, 'First request should have been aborted');
@@ -47,8 +47,8 @@ describe('dfetch', async () => {
     global.fetch = () => mockFetch(10);
     
     const [response1, response2] = await Promise.all([
-      dfetch('key3', 'https://example.com'),
-      dfetch('key4', 'https://example.com')
+      ddpfetch('key3', 'https://example.com'),
+      ddpfetch('key4', 'https://example.com')
     ]);
 
     assert.equal(response1.status, 200);
